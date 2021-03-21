@@ -1,11 +1,6 @@
 <?php
-function login(){
-  
-   $result = [
- 'success' => 1,
- 'msg' => ''
-   ];
-  $email = $_POST['email'] ?? '';
+function verifyData(){
+    $email = $_POST['email'] ?? '';
   if($email){
    $email = filter_var($email,FILTER_VALIDATE_EMAIL);
   }
@@ -22,8 +17,17 @@ function login(){
     $result['success'] = 0;
       $result['msg'] .=  ' Password is required and length greater than 6 <br>';  
   }
+
+  $result['password'] = $password;
+  $result['email'] = $email;
+  return $result;
+}
+function login(){
+  
+   $result = verifyData();
+  
   if($result['success']){
-      return verifyUserLogin($email, $password);
+      return verifyUserLogin($result['email'], $result['password']);
   } else {
      return $result;
   }
@@ -36,5 +40,20 @@ function verifyUserLogin($email, $password){
           return $result;
 }
 function signup(){
-    echo  'signup';
+   
+    $result = verifyData();
+  
+    if($result['success']){
+        return insertUser($result['email'], $result['password']);
+    } else {
+       return $result;
+    }
+}
+
+function insertUser($email, $password){
+    $result = [
+        'success' => 1,
+        'msg' => ''
+          ];
+          return $result;
 }
