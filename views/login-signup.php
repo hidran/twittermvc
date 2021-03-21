@@ -12,8 +12,8 @@
 <div class="modal-body">
 
 <form id="loginsignupForm" method="post">
-<input type="hidden" name="loginActive" id="loginActive" value="1">
-<input type="hidden" name="action" value="loginSignUp">
+
+<input type="hidden" id="action" name="action" value="login">
 <div class="form-group">
 <label for="email">Email </label>
 <input type="email"  name="email" class="form-control" placeholder="email address" id="email" aria-describedby="emailHelp">
@@ -42,19 +42,19 @@
 <script>
 $('#toggleLogin').click(function(evt){
     
-    let loginActive = $('#loginActive');
+    let loginActive = $('#action');
     let modalTile  = $('#loginModalTitle');
     let loginSignupButton = $('#loginSignupButton');
     evt.preventDefault();
   
     
-    if(loginActive.val() === '1'){
+    if(loginActive.val() === 'login'){
         evt.target.innerHTML = 'Login';
-        loginActive.val(0);
+        loginActive.val('signup');
         modalTile.html('Sign up');
         loginSignupButton.html('Sign up');
     } else {
-        loginActive.val(1);
+        loginActive.val('login');
         modalTile.html('Login');
         loginSignupButton.html('Login');
         evt.target.innerHTML = 'Signup';
