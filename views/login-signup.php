@@ -68,10 +68,12 @@ $('#loginSignupButton').click(function(evt){
        url:'actions.php',
        data : $('#loginsignupForm').serialize(),
        success: function(data){
-        console.log(data);
+        const result = JSON.parse(data);
+   
+        alert(result.msg)
        },
-       failure: function(){
-
+       failure: function(data){
+        console.log(data)
        }
 
 
