@@ -14,6 +14,7 @@
 <form id="loginsignupForm" method="post">
 
 <input type="hidden" id="action" name="action" value="login">
+<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
 
 <div class="form-group">
 <label for="email">Email </label>

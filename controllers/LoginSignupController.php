@@ -9,6 +9,12 @@ function verifyData()
         'success' => 1,
         'msg' => ''
     ];
+    $token = $_POST['csrf'] ?? '';
+    if(!isValidToken( $token)){
+        $result['success'] = 0;
+        $result['msg'] = 'Invalid request';
+        return $result;
+    }
     $email = $_POST['email'] ?? '';
     if ($email) {
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -40,6 +46,7 @@ function login()
         $res =  verifyUserLogin($result['email'], $result['password']);
         if($res['success']){
             $_SESSION['userloggedin'] = 1;
+            unset($_SESSION['csrf']);
             $_SESSION['email'] = $result['email'];
         }
         return $res;
@@ -87,6 +94,7 @@ function signup()
         if($res['success']){
             $_SESSION['userloggedin'] = 1;
             $_SESSION['email'] = $result['email'];
+            unset($_SESSION['csrf']);
         }
         return $res;
     } else {
