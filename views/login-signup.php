@@ -14,6 +14,7 @@
 <form id="loginsignupForm" method="post">
 
 <input type="hidden" id="action" name="action" value="login">
+
 <div class="form-group">
 <label for="email">Email </label>
 <input type="email"  name="email" class="form-control" placeholder="email address" id="email" aria-describedby="emailHelp">
@@ -70,7 +71,30 @@ $('#loginSignupButton').click(function(evt){
        success: function(data){
         const result = JSON.parse(data);
    
-        alert(result.msg)
+        alert(result.msg);
+        if(result.success){
+            location.href="index.php";
+        }
+    
+       },
+       failure: function(data){
+        console.log(data)
+       }
+
+
+   });
+
+});
+
+$('#logout').click(function(evt){
+    evt.preventDefault();
+   $.ajax({
+       method: 'POST',
+       url:'actions.php',
+       data : $('#logoutForm').serialize(),
+       success: function(data){
+        alert(data);
+        location.href="index.php";
        },
        failure: function(data){
         console.log(data)

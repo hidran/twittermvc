@@ -1,4 +1,8 @@
 <?php
+function logout(){
+    session_destroy();
+    return 1;
+}
 function verifyData()
 {
     $result = [
@@ -33,7 +37,12 @@ function login()
     $result = verifyData();
 
     if ($result['success']) {
-        return verifyUserLogin($result['email'], $result['password']);
+        $res =  verifyUserLogin($result['email'], $result['password']);
+        if($res['success']){
+            $_SESSION['userloggedin'] = 1;
+            $_SESSION['email'] = $result['email'];
+        }
+        return $res;
     } else {
         return $result;
     }
@@ -42,8 +51,30 @@ function verifyUserLogin($email, $password)
 {
     $result = [
         'success' => 1,
-        'msg' => ''
+        'msg' => 'User loggedin correctly'
     ];
+
+    try {
+        $conn = dbConnect();
+     
+        $sql = 'select * from users where email=:email';
+        $stm = $conn->prepare($sql);
+        $res = $stm->execute([':email' => $email]);
+        if($res && $stm->rowCount()){
+            $row = $stm->fetch(PDO::FETCH_ASSOC);
+           if(!password_verify($password, $row['password'])){
+            $result['success'] = 0;
+            $result['msg'] = 'Passwords mismatch';
+           }
+        } else {
+            $result['success'] = 0;
+            $result['msg'] = 'No user found with this email';
+        }
+    } catch(Exception $e){
+        $result['success'] =0;
+        $result['msg'] = $e->getMessage();
+    }
+
     return $result;
 }
 function signup()
@@ -52,7 +83,12 @@ function signup()
     $result = verifyData();
 
     if ($result['success']) {
-        return insertUser($result['email'], $result['password']);
+        $res =  insertUser($result['email'], $result['password']);
+        if($res['success']){
+            $_SESSION['userloggedin'] = 1;
+            $_SESSION['email'] = $result['email'];
+        }
+        return $res;
     } else {
         return $result;
     }

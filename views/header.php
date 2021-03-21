@@ -33,9 +33,15 @@
       </ul>
  
 
-        
+        <?php
+        if(empty($_SESSION['userloggedin'])):?>
         <button data-toggle="modal" data-target="#loginsignup" class="btn btn-outline-success my-2 my-sm-0" type="button">Login/Signup</button>
-    
+       <?php else: ?>
+        <form method="post" action="actions.php" id="logoutForm">
+            <input type="hidden" name="action" value="logout">
+        <button id="logout" class="btn btn-outline-success my-2 my-sm-0" type="button">logout</button>
+        </form>
+        <?php endif;?>
     </div>
   </nav>
 </header>
