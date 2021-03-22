@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require 'models/tweet.php';
 // 
 if(empty($_SESSION['csrf'])){
     $bytes = random_bytes(32);
