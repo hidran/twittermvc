@@ -48,6 +48,7 @@ function login()
             $_SESSION['userloggedin'] = 1;
             unset($_SESSION['csrf']);
             $_SESSION['email'] = $result['email'];
+            $_SESSION['id'] = $res['data'] ['id'];
         }
         return $res;
     } else {
@@ -58,7 +59,8 @@ function verifyUserLogin($email, $password)
 {
     $result = [
         'success' => 1,
-        'msg' => 'User loggedin correctly'
+        'msg' => 'User loggedin correctly',
+        'data' => []
     ];
 
     try {
@@ -68,7 +70,9 @@ function verifyUserLogin($email, $password)
         $stm = $conn->prepare($sql);
         $res = $stm->execute([':email' => $email]);
         if($res && $stm->rowCount()){
+
             $row = $stm->fetch(PDO::FETCH_ASSOC);
+            $result['data'] = $row;
            if(!password_verify($password, $row['password'])){
             $result['success'] = 0;
             $result['msg'] = 'Passwords mismatch';
@@ -110,7 +114,7 @@ function insertUser($email, $password)
     ];
  try {
     $conn = dbConnect();
-    $sql = 'select email from users where email=?';
+    //$sql = 'select email from users where email=?';
     $sql2 = 'select email from users where email=:email';
     $stm = $conn->prepare($sql2);
     $res = $stm->execute([':email' => $email]);

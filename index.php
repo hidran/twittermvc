@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'functions.php';
 require 'models/tweet.php';
 // 
 if(empty($_SESSION['csrf'])){

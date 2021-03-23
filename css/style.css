@@ -17,3 +17,18 @@ main > .container {
 code {
   font-size: 80%;
 }
+.formTweet{
+  margin-top:60px;
+}
+
+h6{
+  color:#fff;
+  margin: 0 20px;
+}
+.card{
+  margin-bottom: 10px;
+}
+.card .btn {
+  min-width: 120px;
+  font-size: smaller;
+}
