@@ -39,7 +39,7 @@
        <?php else: ?>
         <h6><?=getUserEmail()?></h6>
         <form method="post" action="actions.php" id="logoutForm">
-        <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
+        <input type="hidden" id="csrf" name="csrf" value="<?=$_SESSION['csrf']?>">
             <input type="hidden" name="action" value="logout">
         <button id="logout" class="btn btn-outline-success my-2 my-sm-0" type="button">logout</button>
         </form>
