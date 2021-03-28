@@ -29,8 +29,8 @@ function toggleFollow(){
 
        }
     } catch (Exception $e ){
-        $res['msg'] = $e->getMessage();
-        $res['succcess'] = 0;
+        $result['msg'] = $e->getMessage();
+        $result['succcess'] = 0;
 
 
     }
@@ -38,4 +38,42 @@ function toggleFollow(){
 
    return $result;
 
+}
+
+function postTweet(){
+    $result = [
+        'success' => 0,
+        'msg' => 'Invalid data',
+        'following' => 0,
+        'user_id' => ''
+    ];
+    if(!isValidToken($_POST['csrf'] ?? '')){
+        $result['msg'] = 'Invalid token';
+        return $result;
+    }
+    if(!($_POST['tweetpost'] ?? '')){
+        $result['msg'] = 'Invalid tweet';
+        return $result;
+    }
+    try{
+        $conn = dbConnect();
+        $sql = 'INSERT INTO tweets (user_id, tweet, datetime) values (?,?,NOW())';
+        $stm = $conn->prepare($sql);
+       $res =  $stm->execute(
+           [getUserId(),$_POST['tweetpost']/*, date('Y-m-d H:i:s')*/]);
+       if($res){
+           $result['success'] = 1;
+           $result['msg'] = 'Tweet posted!';         
+
+       } else {
+        $result['success'] = 0;
+        $result['msg'] = 'Tweet not created!';  
+       }
+    } catch (Exception $e ){
+        $result['msg'] = $e->getMessage();
+        $result['succcess'] = 0;
+
+
+    }
+    return $result;
 }

@@ -27,12 +27,12 @@ function timeago($date = '')
     return $diff . ' ' . $strTime[$i] . '(s) ago ';
 }
 
-function isUserLoggedIn():int {
+function isUserLoggedIn() {
     return  $_SESSION['userloggedin']  ?? 0;
 }
-function getUserEmail():string {
+function getUserEmail(){
     return  $_SESSION['email']  ?? '';
 }
-function getUserId():string {
+function getUserId(){
     return  $_SESSION['id']  ?? 0;
 }

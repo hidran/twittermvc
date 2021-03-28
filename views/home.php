@@ -9,17 +9,12 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <form>
-                <div class="formTweet">
-                    <div class="form-group">
-
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-success">POST TWEET</button>
-                    </div>
-                </div>
-            </form>
+            <?php
+            if(isUserLoggedIn()){
+                require 'views/tweet-form.php';
+            }
+            
+             ?>
         </div>
     </div>
 

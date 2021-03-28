@@ -37,3 +37,24 @@ $('#tweets .btn').click(function (evt) {
     })
 });
 
+// post a tweet
+$('#tweetform #btnTweetPost').click(function (evt) {
+    evt.preventDefault();
+
+    const tweetPost = $('#tweetpost').val();
+    if(!tweetPost || tweetPost.length <4){
+        alert('Tweet min length is 3!');
+        return false;
+    }
+    const data = $('#tweetform').serialize();
+    alert(data)
+    $.ajax({
+        method: 'POST',
+        url: 'actions.php',
+        data:data,
+        success: function (data) {
+            alert(data)
+           location.href ="index.php";
+        }
+    })
+});
