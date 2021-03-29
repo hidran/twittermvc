@@ -53,8 +53,16 @@ $('#tweetform #btnTweetPost').click(function (evt) {
         url: 'actions.php',
         data:data,
         success: function (data) {
-            alert(data)
-           location.href ="index.php";
+          const tweetData = JSON.parse(data);
+           if(!tweetData['success']){
+               alert(tweetData['msg']);
+               return;
+           }
+           const tweets = document.getElementById('tweets');
+           const firstChild = tweets.firstChild;
+            const myDiv = document.createElement('div');
+            myDiv.innerHTML = tweetData['tweet'];
+            tweets.insertBefore(myDiv, firstChild);
         }
     })
 });

@@ -44,8 +44,7 @@ function postTweet(){
     $result = [
         'success' => 0,
         'msg' => 'Invalid data',
-        'following' => 0,
-        'user_id' => ''
+       'tweet' => ''
     ];
     if(!isValidToken($_POST['csrf'] ?? '')){
         $result['msg'] = 'Invalid token';
@@ -60,10 +59,11 @@ function postTweet(){
         $sql = 'INSERT INTO tweets (user_id, tweet, datetime) values (?,?,NOW())';
         $stm = $conn->prepare($sql);
        $res =  $stm->execute(
-           [getUserId(),$_POST['tweetpost']/*, date('Y-m-d H:i:s')*/]);
+           [getUserId(),strip_tags($_POST['tweetpost'])/*, date('Y-m-d H:i:s')*/]);
        if($res){
            $result['success'] = 1;
-           $result['msg'] = 'Tweet posted!';         
+           $result['msg'] = 'Tweet posted!';  
+           $result['tweet'] = getTweetHtml($_POST['tweetpost'] );       
 
        } else {
         $result['success'] = 0;
@@ -76,4 +76,16 @@ function postTweet(){
 
     }
     return $result;
+}
+function getTweetHtml($tweet){
+    $htmlTweet =  '<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">'.getUserEmail().'</h5>
+        <h6 class="card-subtitle mb-2 text-muted">'. date('Y-m-d H:i:s').'</h6>
+        <p class="card-text">'. htmlentities(strip_tags($tweet)).'</p>
+       
+    </div>
+</div>';
+
+return $htmlTweet;
 }
