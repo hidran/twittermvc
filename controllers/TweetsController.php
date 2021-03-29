@@ -77,15 +77,27 @@ function postTweet(){
     }
     return $result;
 }
-function getTweetHtml($tweet){
-    $htmlTweet =  '<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">'.getUserEmail().'</h5>
-        <h6 class="card-subtitle mb-2 text-muted">'. date('Y-m-d H:i:s').'</h6>
-        <p class="card-text">'. htmlentities(strip_tags($tweet)).'</p>
-       
-    </div>
-</div>';
 
-return $htmlTweet;
+
+function filterTweets(){
+    $result = [
+        'success' => 1,
+        'msg' => '',
+       'tweets' => ''
+    ];
+    try {
+    $filter = $_GET['filter'] ?? null;
+    $tweets = findAllTweets(getUserId(), $filter);
+ 
+    if($tweets['data']){
+        foreach($tweets['data'] as $tweet){
+            $result['tweets'] .= getTweetTpl($tweet);
+        }
+    }
+
+    }catch(Exception $e){
+        $result['success'] = 0;
+         $result['msg'] = $e->getMessage();
+    }
+return $result;
 }

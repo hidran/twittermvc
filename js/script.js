@@ -47,7 +47,7 @@ $('#tweetform #btnTweetPost').click(function (evt) {
         return false;
     }
     const data = $('#tweetform').serialize();
-    alert(data)
+
     $.ajax({
         method: 'POST',
         url: 'actions.php',
@@ -63,6 +63,37 @@ $('#tweetform #btnTweetPost').click(function (evt) {
             const myDiv = document.createElement('div');
             myDiv.innerHTML = tweetData['tweet'];
             tweets.insertBefore(myDiv, firstChild);
+        }
+    })
+});
+
+
+
+// filter  tweets
+$('#filterTweets #filterTweetsBtn').click(function (evt) {
+    evt.preventDefault();
+
+    const filterField = $('#filterField').val();
+    if(!filterField || filterField.length <4){
+        alert('The search text min length is 3!');
+        return false;
+    }
+    const data = $('#filterTweets').serialize();
+
+    $.ajax({
+        method: 'GET',
+        url: 'actions.php',
+        data:data,
+        success: function (data) {
+          const tweetData = JSON.parse(data);
+           if(!tweetData['success']){
+               alert(tweetData['msg']);
+               return;
+           }
+           const tweets = document.getElementById('tweets');
+          
+            tweets.innerHTML = tweetData['tweets'];
+          
         }
     })
 });
